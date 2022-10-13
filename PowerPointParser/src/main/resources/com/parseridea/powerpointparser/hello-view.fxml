@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.parseridea.powerpointparser.HelloController">
+   <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <Menu mnemonicParsing="false" text="Файл">
+               <MenuItem mnemonicParsing="false" onAction="#getPresentationObjects" text="Получить объекты из презентации" />
+               <MenuItem mnemonicParsing="false" onAction="#saveAsPresentation" text="Сохранить как презентацию" />
+            <MenuItem mnemonicParsing="false" onAction="#recreatePresentation" text="Очистить перезентацию" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Правка">
+               <MenuItem mnemonicParsing="false" onAction="#clearSlide" text="Очистить слайд" />
+               <MenuItem mnemonicParsing="false" onAction="#addSlide" text="Добавить слайд" />
+               <MenuItem mnemonicParsing="false" onAction="#removeSlide" text="Удалить слайд" />
+           </Menu>
+           <Menu mnemonicParsing="false" onAction="#showAbout" text="Помощь">
+               <MenuItem mnemonicParsing="false" text="О программе" />
+           </Menu>
+       </MenuBar>
+   </top>
+   <left>
+       <ToolBar orientation="VERTICAL" prefHeight="344.0" prefWidth="120.0" BorderPane.alignment="CENTER">
+           <Label text="Инструменты" />
+           <GridPane prefHeight="60.0" prefWidth="110.0">
+               <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="27.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="83.0" />
+               </columnConstraints>
+               <rowConstraints>
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <Button mnemonicParsing="false" onAction="#addImage" prefHeight="25.0" prefWidth="84.0" text="Картинка" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <Button mnemonicParsing="false" onAction="#selectImageSource" text="..." GridPane.rowIndex="1" />
+               <TextField fx:id="imageSource" prefHeight="25.0" prefWidth="59.0" GridPane.columnSpan="2147483647" />
+           </GridPane>
+           <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#addText" prefHeight="25.0" prefWidth="84.0" text="Текст" />
+           <Button layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#addHyperlink" prefHeight="25.0" prefWidth="84.0" text="Ссылка" />
+         <Button mnemonicParsing="false" onAction="#addSlide" text="Добавить слайд" />
+           <Separator prefHeight="17.0" prefWidth="85.0" />
+           <Label layoutX="10.0" layoutY="10.0" text="Замена" />
+           <HBox prefHeight="29.0" prefWidth="51.0">
+               <Spinner fx:id="slidenum" editable="true" prefHeight="25.0" prefWidth="52.0" />
+               <Button mnemonicParsing="false" onAction="#replaceSlide" text="&gt;&gt;" />
+           </HBox>
+         <ColorPicker fx:id="pallette" onAction="#setBackgroundFill" />
+       </ToolBar>
+   </left>
+   <center>
+      <Pane fx:id="slide" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#prev" text="Назад" />
+          <Button alignment="CENTER" mnemonicParsing="false" onAction="#next" text="Вперед" />
+            <Label fx:id="slideCurrentNum" text="1" />
+        </buttons>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </ButtonBar>
+   </bottom>
+</BorderPane>

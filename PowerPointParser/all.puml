@@ -1,0 +1,169 @@
+@startuml
+class com.parseridea.powerpointparser.Iterator.Slides {
+- ArrayList<Slide> Slides
++ void addSlide(Slide)
++ ArrayList<Slide> getSlides()
++ Iterator getIterator()
+}
+class com.parseridea.powerpointparser.Iterator.Slide {
+- Color background
+~ ArrayList<Image> images
+~ ArrayList<Hyperlink> hyperlinks
+~ ArrayList<Text> texts
++ ArrayList<Hyperlink> getHyperlinks()
++ Color getBackground()
++ void setBackground(Color)
++ ArrayList<Image> getImages()
++ ArrayList<Text> getTexts()
++ void clear()
++ void copy(Slide)
++ Image addImage(String)
++ Text addText(String)
++ Hyperlink addLink(String)
++ void removeObject(PresentationNode)
+}
+interface com.parseridea.powerpointparser.Iterator.Iterator {
+~ boolean hasNext(int)
+~ Object next()
+~ Object replace(int)
+~ void preview()
+~ boolean hasPrev(int)
+~ Object prev()
+~ int getCurrent()
+}
+class com.parseridea.powerpointparser.HelloController {
++ TextField imageSource
++ Spinner<Integer> slidenum
++ Label slideCurrentNum
++ Pane slide
++ ColorPicker pallette
+~ Slides slides
+~ Slide currentSlide
+- File imageFile
+~ Iterator iterator
++ void initialize(URL,ResourceBundle)
+- void updateSpinner()
+- void selectImageSource()
+- void addImage()
+- void addHyperlink()
+- void addText()
+- void draw(PresentationNode)
++ void next()
++ void prev()
++ void setSlide(Slide)
++ void addSlide()
++ void replaceSlide()
+- void removeSlide()
++ void clearNode(Slide)
+- void clearSlide()
+- void saveAsPresentation()
+- void getPresentationObjects()
++ void setBackgroundFill()
+- void recreatePresentation()
+- void showAbout()
+}
+class com.parseridea.powerpointparser.Iterator.SlidesIterator {
+- int current
+~ Slide bi
++ ArrayList<Slide> Slides
++ boolean hasNext(int)
++ boolean hasPrev(int)
++ Object next()
++ Object prev()
++ Object replace(int)
++ void preview()
++ int getCurrent()
+}
+abstract class com.parseridea.powerpointparser.PresentationElements.PresentationNode {
+- double mouseAnchorX
+- double mouseAnchorY
+~ double x
+~ double y
+~ double width
+~ double height
++ double getWidth()
++ double getHeight()
++ double getX()
++ double getY()
++ void updatePosition(double,double)
++ {abstract}void draw()
+}
+class com.parseridea.powerpointparser.ColorParser {
++ {static} java.awt.Color colorParseToAWT(Color)
+}
+interface com.parseridea.powerpointparser.Iterator.Aggregate {
+~ Iterator getIterator()
+}
+class com.parseridea.powerpointparser.PresentationElements.Text {
+~ String text
+~ Color color
+~ double fontSize
+# TextField textField
+# Label label
+- void settingText()
++ String getText()
++ Color getColor()
++ double getFontSize()
++ void draw()
+}
+class com.parseridea.powerpointparser.PresentationElements.Text.TextBuilder {
+~ double x
+~ String text
+~ Color color
+~ double fontSize
++ TextBuilder setColor(Color)
++ TextBuilder setFontSize(double)
++ Text build()
+}
+class com.parseridea.powerpointparser.PresentationElements.Hyperlink {
+~ String address
+~ javafx.scene.control.Hyperlink hyperlinkBlock
+~ TextField textField
+~ Label label
+- void settingText()
++ String getAddress()
++ void draw()
+}
+class com.parseridea.powerpointparser.PresentationElements.Hyperlink.HyperlinkBuilder {
+~ double x
+~ String address
+~ Color color
+~ double fontSize
++ HyperlinkBuilder setColor(Color)
++ HyperlinkBuilder setFontSize(double)
++ Hyperlink build()
+}
+class com.parseridea.powerpointparser.PresentationElements.Image {
+~ String imageSource
++ void draw()
++ String getImageSource()
+}
+class com.parseridea.powerpointparser.PresentationElements.Image.ImageBuilder {
+~ double x
+~ String imageSource
++ ImageBuilder setWidth(double)
++ ImageBuilder setHeight(double)
++ Image build()
+}
+class com.parseridea.powerpointparser.Presentation {
++ {static} void createPresentation(Slides)
++ {static} void getAllObjects(XMLSlideShow)
+}
+class com.parseridea.powerpointparser.HelloApplication {
++ void start(Stage)
++ {static} void main(String[])
+}
+
+
+com.parseridea.powerpointparser.Iterator.Aggregate <|.. com.parseridea.powerpointparser.Iterator.Slides
+javafx.fxml.Initializable <|.. com.parseridea.powerpointparser.HelloController
+com.parseridea.powerpointparser.Iterator.Iterator <|.. com.parseridea.powerpointparser.Iterator.SlidesIterator
+javafx.scene.Group <|-- com.parseridea.powerpointparser.PresentationElements.PresentationNode
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Text
+com.parseridea.powerpointparser.PresentationElements.Text +.. com.parseridea.powerpointparser.PresentationElements.Text.TextBuilder
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Hyperlink
+com.parseridea.powerpointparser.PresentationElements.Hyperlink +.. com.parseridea.powerpointparser.PresentationElements.Hyperlink.HyperlinkBuilder
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Image
+com.parseridea.powerpointparser.PresentationElements.Image +.. com.parseridea.powerpointparser.PresentationElements.Image.ImageBuilder
+javafx.application.Application <|-- com.parseridea.powerpointparser.HelloApplication
+@enduml

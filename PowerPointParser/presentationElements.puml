@@ -1,0 +1,76 @@
+@startuml
+class com.parseridea.powerpointparser.PresentationElements.Text {
+~ String text
+~ Color color
+~ double fontSize
+# TextField textField
+# Label label
+- void settingText()
++ String getText()
++ Color getColor()
++ double getFontSize()
++ void draw()
+}
+class com.parseridea.powerpointparser.PresentationElements.Text.TextBuilder {
+~ double x
+~ String text
+~ Color color
+~ double fontSize
++ TextBuilder setColor(Color)
++ TextBuilder setFontSize(double)
++ Text build()
+}
+class com.parseridea.powerpointparser.PresentationElements.Hyperlink {
+~ String address
+~ javafx.scene.control.Hyperlink hyperlinkBlock
+~ TextField textField
+~ Label label
+- void settingText()
++ String getAddress()
++ void draw()
+}
+class com.parseridea.powerpointparser.PresentationElements.Hyperlink.HyperlinkBuilder {
+~ double x
+~ String address
+~ Color color
+~ double fontSize
++ HyperlinkBuilder setColor(Color)
++ HyperlinkBuilder setFontSize(double)
++ Hyperlink build()
+}
+class com.parseridea.powerpointparser.PresentationElements.Image {
+~ String imageSource
++ void draw()
++ String getImageSource()
+}
+class com.parseridea.powerpointparser.PresentationElements.Image.ImageBuilder {
+~ double x
+~ String imageSource
++ ImageBuilder setWidth(double)
++ ImageBuilder setHeight(double)
++ Image build()
+}
+abstract class com.parseridea.powerpointparser.PresentationElements.PresentationNode {
+- double mouseAnchorX
+- double mouseAnchorY
+~ double x
+~ double y
+~ double width
+~ double height
++ double getWidth()
++ double getHeight()
++ double getX()
++ double getY()
++ void updatePosition(double,double)
++ {abstract}void draw()
+}
+
+
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Text
+com.parseridea.powerpointparser.PresentationElements.Text +.. com.parseridea.powerpointparser.PresentationElements.Text.TextBuilder
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Hyperlink
+com.parseridea.powerpointparser.PresentationElements.Hyperlink +.. com.parseridea.powerpointparser.PresentationElements.Hyperlink.HyperlinkBuilder
+com.parseridea.powerpointparser.PresentationElements.PresentationNode <|-- com.parseridea.powerpointparser.PresentationElements.Image
+com.parseridea.powerpointparser.PresentationElements.Image +.. com.parseridea.powerpointparser.PresentationElements.Image.ImageBuilder
+javafx.scene.Group <|-- com.parseridea.powerpointparser.PresentationElements.PresentationNode
+@enduml

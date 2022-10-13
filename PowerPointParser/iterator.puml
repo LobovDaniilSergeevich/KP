@@ -1,0 +1,53 @@
+@startuml
+class com.parseridea.powerpointparser.Iterator.Slides {
+- ArrayList<Slide> Slides
++ void addSlide(Slide)
++ ArrayList<Slide> getSlides()
++ Iterator getIterator()
+}
+class com.parseridea.powerpointparser.Iterator.Slide {
+- Color background
+~ ArrayList<Image> images
+~ ArrayList<Hyperlink> hyperlinks
+~ ArrayList<Text> texts
++ ArrayList<Hyperlink> getHyperlinks()
++ Color getBackground()
++ void setBackground(Color)
++ ArrayList<Image> getImages()
++ ArrayList<Text> getTexts()
++ void clear()
++ void copy(Slide)
++ Image addImage(String)
++ Text addText(String)
++ Hyperlink addLink(String)
++ void removeObject(PresentationNode)
+}
+interface com.parseridea.powerpointparser.Iterator.Iterator {
+~ boolean hasNext(int)
+~ Object next()
+~ Object replace(int)
+~ void preview()
+~ boolean hasPrev(int)
+~ Object prev()
+~ int getCurrent()
+}
+class com.parseridea.powerpointparser.Iterator.SlidesIterator {
+- int current
+~ Slide bi
++ ArrayList<Slide> Slides
++ boolean hasNext(int)
++ boolean hasPrev(int)
++ Object next()
++ Object prev()
++ Object replace(int)
++ void preview()
++ int getCurrent()
+}
+interface com.parseridea.powerpointparser.Iterator.Aggregate {
+~ Iterator getIterator()
+}
+
+
+com.parseridea.powerpointparser.Iterator.Aggregate <|.. com.parseridea.powerpointparser.Iterator.Slides
+com.parseridea.powerpointparser.Iterator.Iterator <|.. com.parseridea.powerpointparser.Iterator.SlidesIterator
+@enduml
