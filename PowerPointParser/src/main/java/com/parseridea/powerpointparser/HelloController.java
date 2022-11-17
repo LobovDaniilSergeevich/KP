@@ -1,5 +1,6 @@
 package com.parseridea.powerpointparser;
 
+import com.parseridea.powerpointparser.Iterator.ImageSlides;
 import com.parseridea.powerpointparser.Iterator.Iterator;
 import com.parseridea.powerpointparser.Iterator.Slide;
 import com.parseridea.powerpointparser.Iterator.Slides;
@@ -7,19 +8,20 @@ import com.parseridea.powerpointparser.PresentationElements.Hyperlink;
 import com.parseridea.powerpointparser.PresentationElements.Image;
 import com.parseridea.powerpointparser.PresentationElements.PresentationNode;
 import com.parseridea.powerpointparser.PresentationElements.Text;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,8 +37,12 @@ public class HelloController implements Initializable {
     public Label slideCurrentNum;
     public Pane slide;
     public ColorPicker pallette;
+    public Button readMode;
+    public VBox objMode;
     Slides slides;
+    ImageSlides imageSlides;
     Slide currentSlide;
+    BufferedImage image;
     private File imageFile;
     Iterator iterator;
 
@@ -65,6 +71,30 @@ public class HelloController implements Initializable {
             imageSource.setText(file.getAbsolutePath());
             imageFile = file;
         }
+    }
+    @FXML
+    private void openAsImages() throws IOException {
+        objMode.setVisible(false);
+        readMode.setVisible(true);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().clear();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Презентация (*.pptx)", "*.pptx"));
+        fileChooser.setInitialFileName("Презентация");
+        File file = fileChooser.showOpenDialog(null);
+        if(file != null) {
+            XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(file));
+            imageSlides = new ImageSlides(ppt);
+            image = imageSlides.getSlides().get(0);
+            slide.setBackground(new Background(new BackgroundImage(SwingFXUtils.toFXImage(image,null),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    new BackgroundSize(100,100,true,true,true,true))));
+            iterator = imageSlides.getIterator();
+            updateSpinner();
+        }
+    }
+    @FXML
+    private void convertToImages() throws IOException {
+        imageSlides.convertToImages();
     }
     @FXML
     private void addImage()
@@ -103,17 +133,34 @@ public class HelloController implements Initializable {
     public void next()
     {
         clearNode(currentSlide);
-        currentSlide = (Slide) iterator.next();
-        slideCurrentNum.setText(String.valueOf(iterator.getCurrent()+1));
-        setSlide(currentSlide);
+        if(objMode.isVisible()) {
+            currentSlide = (Slide) iterator.next();
+            setSlide(currentSlide);
+        }
+        else {
+            image = (BufferedImage) iterator.next();
+            slide.setBackground(new Background(new BackgroundImage(SwingFXUtils.toFXImage(image,null),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    new BackgroundSize(100,100,true,true,true,true))));
+        }
+        slideCurrentNum.setText(String.valueOf(iterator.getCurrent() + 1));
     }
     public void prev()
     {
-        Slide sld = currentSlide;
-        currentSlide = (Slide) iterator.prev();
-        slideCurrentNum.setText(String.valueOf(iterator.getCurrent()+1));
-        clearNode(sld);
-        setSlide(currentSlide);
+        slideCurrentNum.setText(String.valueOf(iterator.getCurrent() + 1));
+        if(objMode.isVisible()) {
+            Slide sld = currentSlide;
+            currentSlide = (Slide) iterator.prev();
+            clearNode(sld);
+            setSlide(currentSlide);
+        }
+        else{
+            image = (BufferedImage) iterator.prev();
+            clearNode(currentSlide);
+            slide.setBackground(new Background(new BackgroundImage(SwingFXUtils.toFXImage(image,null),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    new BackgroundSize(100,100,true,true,true,true))));
+        }
     }
     public void setSlide(Slide slideObj)
     {
@@ -162,6 +209,7 @@ public class HelloController implements Initializable {
         for(Image image: slideObj.getImages()) {
             slide.getChildren().remove(image);
         }
+        slide.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
     }
     @FXML
     private void clearSlide()
@@ -175,6 +223,8 @@ public class HelloController implements Initializable {
     }
     @FXML
     private void getPresentationObjects() throws IOException {
+        objMode.setVisible(true);
+        readMode.setVisible(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().clear();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Презентация (*.pptx)", "*.pptx"));
@@ -192,6 +242,8 @@ public class HelloController implements Initializable {
     @FXML
     private void recreatePresentation()
     {
+        objMode.setVisible(true);
+        readMode.setVisible(false);
         clearSlide();
         slides = new Slides(new ArrayList<>());
         currentSlide = new Slide();
