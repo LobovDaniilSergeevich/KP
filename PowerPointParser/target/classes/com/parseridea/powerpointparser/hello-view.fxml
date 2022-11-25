@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.parseridea.powerpointparser.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.parseridea.powerpointparser.HelloController">
    <top>
        <MenuBar BorderPane.alignment="CENTER">
            <Menu mnemonicParsing="false" text="Файл">
@@ -51,7 +51,8 @@
                </HBox>
                <ColorPicker fx:id="pallette" onAction="#setBackgroundFill" />
            </VBox>
-         <Button fx:id="readMode" mnemonicParsing="false" onAction="#convertToImages" text="Сохранить в png" />
+         <Button fx:id="readMode" mnemonicParsing="false" onAction="#convertToImages" text="Сохранить все в png" />
+         <Button fx:id="save1" layoutX="10.0" layoutY="273.0" mnemonicParsing="false" onAction="#convertToImage" text="Сохранить в png" />
        </ToolBar>
    </left>
    <center>

@@ -89,6 +89,10 @@ public class HelloController implements Initializable {
         Presentation.convertToImages(Objects.requireNonNull(Presentation.createPresentation(slides)));
     }
     @FXML
+    private void convertToImage() throws IOException {
+        Presentation.convertToImage(Objects.requireNonNull(Presentation.createPresentation(slides)),iterator.getCurrent());
+    }
+    @FXML
     private void addImage()
     {
         if(imageFile!=null) {

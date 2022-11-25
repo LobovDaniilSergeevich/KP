@@ -121,6 +121,39 @@ public class Presentation {
         }
     }
 
+    public static void convertToImage(XMLSlideShow presentation,int num) throws IOException {
+        Dimension pgsize = presentation.getPageSize();
+
+        List<XSLFSlide> slide = presentation.getSlides();
+
+            BufferedImage img = new BufferedImage(pgsize.width, pgsize.height, 1);
+
+            Graphics2D graphics = img.createGraphics();
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                    RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+            graphics.setColor(Color.white);
+            graphics.clearRect(0, 0, pgsize.width, pgsize.height);
+            graphics.fill(new Rectangle2D.Float(0, 0, pgsize.width, pgsize.height));
+
+            // render
+            slide.get(num).draw(graphics);
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Выбор папки для сохранения");
+            fileChooser.setInitialFileName("слайд.png");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Слайд", "*.png"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                FileOutputStream out = new FileOutputStream(file);
+                javax.imageio.ImageIO.write(img, "png", out);
+                out.close();
+        }
+    }
     /**
      * @param ppt presentation object
      */
