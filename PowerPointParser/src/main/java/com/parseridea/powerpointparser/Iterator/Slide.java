@@ -6,16 +6,31 @@ import com.parseridea.powerpointparser.PresentationElements.PresentationNode;
 import com.parseridea.powerpointparser.PresentationElements.Text;
 import javafx.scene.paint.Color;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
  * class for slide
  */
 public class Slide {
+    public Slide(BufferedImage img)
+    {
+        pptxBG=img;
+    }
+    public Slide(){}
     private Color background=Color.TRANSPARENT;
+    BufferedImage pptxBG;
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Hyperlink> hyperlinks = new ArrayList<>();
     ArrayList<Text> texts = new ArrayList<>();
+
+    public void setPptxBG(BufferedImage pptxBG) {
+        this.pptxBG = pptxBG;
+    }
+
+    public BufferedImage getPptxBG() {
+        return pptxBG;
+    }
 
     public ArrayList<Hyperlink> getHyperlinks() {
         return hyperlinks;
@@ -45,11 +60,12 @@ public class Slide {
     /**
      * @param source copied slide
      */
-    public void copy(Slide source)
+    public void clone(Slide source)
     {
         images.clear();
         hyperlinks.clear();
         texts.clear();
+        this.pptxBG=source.pptxBG;
         this.images.addAll(source.images);
         this.hyperlinks.addAll(source.hyperlinks);
         this.texts.addAll(source.texts);

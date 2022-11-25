@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @RunWith(JfxRunner.class)
 class SlideTest {
 
@@ -30,7 +28,7 @@ class SlideTest {
         slide1.addImage("1");
         slide.addImage("ds");
         slide.addLink("sd");
-        slide.copy(slide1);
+        slide.clone(slide1);
         Assert.assertEquals(slide.images.size(),2);
         Assert.assertEquals(slide.hyperlinks.size(),0);
     }

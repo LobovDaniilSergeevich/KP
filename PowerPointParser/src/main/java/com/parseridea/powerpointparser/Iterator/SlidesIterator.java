@@ -70,9 +70,9 @@ public class SlidesIterator implements Iterator {
     public Object replace(int num)
     {
             Slide temp = new Slide();
-            temp.copy(bi);
-            bi.copy(Slides.get(num));
-            Slides.get(num).copy(temp);
+            temp.clone(bi);
+            bi.clone(Slides.get(num));
+            Slides.get(num).clone(temp);
             return bi;
     }
     @Override

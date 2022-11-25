@@ -11,7 +11,7 @@
                <MenuItem mnemonicParsing="false" onAction="#getPresentationObjects" text="Получить объекты из презентации" />
                <MenuItem mnemonicParsing="false" onAction="#saveAsPresentation" text="Сохранить как презентацию" />
             <MenuItem mnemonicParsing="false" onAction="#recreatePresentation" text="Очистить перезентацию" />
-            <MenuItem mnemonicParsing="false" onAction="#openAsImages" text="Открыть презентацию (только для чтения)" />
+            <MenuItem mnemonicParsing="false" onAction="#openAsImages" text="Открыть презентацию" />
            </Menu>
            <Menu mnemonicParsing="false" text="Правка">
                <MenuItem mnemonicParsing="false" onAction="#clearSlide" text="Очистить слайд" />
@@ -51,7 +51,7 @@
                </HBox>
                <ColorPicker fx:id="pallette" onAction="#setBackgroundFill" />
            </VBox>
-         <Button fx:id="readMode" mnemonicParsing="false" onAction="#convertToImages" text="Сохранить в png" visible="false" />
+         <Button fx:id="readMode" mnemonicParsing="false" onAction="#convertToImages" text="Сохранить в png" />
        </ToolBar>
    </left>
    <center>
